@@ -76,3 +76,167 @@ class Historico_GET_PUT_PATCH_DELETE(RetrieveUpdateDestroyAPIView):
     def perform_create(self, serializer):
         return serializer.save()
     
+# Importar dados
+
+# Importar sensores
+class ImportarSensores(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    def post(self, request):
+        try:
+            if not request.FILES:
+                return Response(
+                    {"error": "Nenhum arquivo enviado"}, 
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+            
+            results = {}
+            
+            for file_name, file_obj in request.FILES.items():
+                try:
+                    df = pd.read_excel(file_obj)
+                    count = 0
+                    
+                    for _, row in df.iterrows():
+
+                        sensor_value = row['sensor'].strip().lower()
+
+                        Sensor.objects.create(
+                            sensor=sensor_value,
+                            mac_address=row['mac_address'],
+                            unidade_med=row['unidade_medida'],
+                            latitude=row['latitude'],
+                            longitude=row['longitude'],
+                            status=row['status'] if isinstance(row['status'], bool)
+                                    else row['status'].lower() == 'ativo'
+                        )
+                        count += 1
+                    
+                    results[file_name] = {
+                        "created": count,
+                        "message": f"{count} sensores criados"
+                    }
+                
+                except Exception as e:
+                    results[file_name] = f"Erro: {str(e)}"
+            
+            return Response({
+                "message": "Importação concluída",
+                "results": results
+            }, status=status.HTTP_201_CREATED)
+            
+        except Exception as e:
+            return Response(
+                {"error": str(e)}, 
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+
+# Importar ambiente
+class ImportarAmbientes(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        try:
+            if not request.FILES:
+                return Response(
+                    {'error': 'Nenhum arquivo enviado'},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+            
+            results = {}
+
+            for file_name, file_obj in request.FILES.items():
+                try:
+                    df = pd.read_excel(file_obj)  
+                    count = 0
+                    
+                    for _, row in df.iterrows():   
+                        
+                        try:
+                            Ambiente.objects.create(
+                                sig=row['sig'],
+                                descricao=row['descricao'],
+                                ni=row['ni'],
+                                responsavel=row['responsavel']
+                            )
+                            count += 1
+                        except Exception as e:
+                            errors += 1
+                            continue
+                    
+                    results[file_name] = {
+                        "created": count,
+                        "message": f"{count} ambientes criados"
+                    }
+                
+                except Exception as e:
+                    results[file_name] = f"Erro ao processar arquivo: {str(e)}"
+            
+            return Response({
+                "message": "Importação concluída",  
+                "results": results
+            }, status=status.HTTP_201_CREATED)
+        
+        except Exception as e:
+            return Response(
+                {'error': str(e)},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+
+# Importar histórico
+class ImportarHistoricos(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        try:
+            if not request.FILES:
+                return Response(
+                    {'error': 'Nenhum arquivo enviado'},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+            
+            results = {}
+
+            for file_name, file_obj in request.FILES.items():
+                try:
+                    df = pd.read_excel(file_obj)
+                    count = 0
+                    errors = 0
+                    
+                    for _, row in df.iterrows():
+                        
+                        try:
+                            # Verifica se o sensor existe
+                            sensor = Sensor.objects.get(pk=row['sensor_id'])
+                            
+                            # Cria o histórico
+                            Historico.objects.create(
+                                sensor=sensor,
+                                valor=row['valor'],
+                                timestamp=row['timestamp'] if pd.notna(row['timestamp']) else now()
+                            )
+                            count += 1
+                        except Sensor.DoesNotExist:
+                            errors += 1
+                        except Exception as e:
+                            errors += 1
+                    
+                    results[file_name] = {
+                        "created": count,
+                        "errors": errors,
+                        "message": f"{count} históricos criados"
+                    }
+                
+                except Exception as e:
+                    results[file_name] = f"Erro ao processar arquivo: {str(e)}"
+            
+            return Response({
+                "message": "Importação concluída",
+                "results": results
+            }, status=status.HTTP_201_CREATED)
+        
+        except Exception as e:
+            return Response(
+                {'error': str(e)},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
