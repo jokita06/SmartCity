@@ -28,19 +28,18 @@ class Ambiente(models.Model):
 
 class Sensor(models.Model):  
     sensores_tipo = [
-        ('TEMP', 'Temperatura'),
-        ('LUMI', 'Luminosidade'),
-        ('UMID', 'Umidade'),
-        ('CONT', 'Contador'),
+        ('temperatura', 'Temperatura'), 
+        ('luminosidade', 'Luminosidade'),
+        ('umidade', 'Umidade'),
+        ('contador', 'Contador'),
     ]
 
-    sensor = models.CharField(max_length=4, choices=sensores_tipo)
+    sensor = models.CharField(choices=sensores_tipo)
     mac_address = models.CharField(max_length=255)  
-    unidade_med = models.FloatField()
+    unidade_med = models.CharField()
     latitude = models.FloatField()
     longitude = models.FloatField()
     status = models.CharField(max_length=20) 
-    ambiente = models.ForeignKey(Ambiente, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.sensor
