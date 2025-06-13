@@ -203,16 +203,18 @@ class ImportarHistoricos(APIView):
                         
                         try:
                             # Verifica se o sensor existe
-                            sensor = Sensor.objects.get(pk=row['sensor_id'])
-                            
+                            sensor = Sensor.objects.get(pk=row['sensor'])
+                            ambiente = Ambiente.objects.get(pk=row['ambiente'])
                             # Cria o histórico
                             Historico.objects.create(
+                                ambiente=ambiente,
                                 sensor=sensor,
                                 valor=row['valor'],
                                 timestamp=row['timestamp'] if pd.notna(row['timestamp']) else now()
                             )
                             count += 1
                         except Sensor.DoesNotExist:
+
                             errors += 1
                         except Exception as e:
                             errors += 1
@@ -322,3 +324,12 @@ class ExportarAmbientes(APIView):
             return Response (
                 {'error': str(e)}
             )
+
+# class exportarHistoricos(APIView):
+#     permission_classes = [IsAuthenticated]
+
+#     def get(self, request):
+#         try:
+#             queryset = Ambiente.objects.all().values(
+#                 ''
+#             )
