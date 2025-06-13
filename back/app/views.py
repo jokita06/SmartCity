@@ -7,7 +7,6 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.response import Response
 import pandas as pd
-from rest_framework import status
 
 # Efetuar login
 class Login(TokenObtainPairView):
@@ -87,7 +86,6 @@ class ImportarSensores(APIView):
             if not request.FILES:
                 return Response(
                     {"error": "Nenhum arquivo enviado"}, 
-                    status=status.HTTP_400_BAD_REQUEST
                 )
             
             results = {}
@@ -123,12 +121,11 @@ class ImportarSensores(APIView):
             return Response({
                 "message": "Importação concluída",
                 "results": results
-            }, status=status.HTTP_201_CREATED)
+            })
             
         except Exception as e:
             return Response(
                 {"error": str(e)}, 
-                status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
 
 # Importar ambiente
@@ -139,8 +136,7 @@ class ImportarAmbientes(APIView):
         try:
             if not request.FILES:
                 return Response(
-                    {'error': 'Nenhum arquivo enviado'},
-                    status=status.HTTP_400_BAD_REQUEST
+                    {'error': 'Nenhum arquivo enviado'}
                 )
             
             results = {}
@@ -175,12 +171,11 @@ class ImportarAmbientes(APIView):
             return Response({
                 "message": "Importação concluída",  
                 "results": results
-            }, status=status.HTTP_201_CREATED)
+            })
         
         except Exception as e:
             return Response(
                 {'error': str(e)},
-                status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
 
 # Importar histórico
@@ -191,8 +186,7 @@ class ImportarHistoricos(APIView):
         try:
             if not request.FILES:
                 return Response(
-                    {'error': 'Nenhum arquivo enviado'},
-                    status=status.HTTP_400_BAD_REQUEST
+                    {'error': 'Nenhum arquivo enviado'}
                 )
             
             results = {}
@@ -233,10 +227,65 @@ class ImportarHistoricos(APIView):
             return Response({
                 "message": "Importação concluída",
                 "results": results
-            }, status=status.HTTP_201_CREATED)
+            })
         
         except Exception as e:
             return Response(
-                {'error': str(e)},
-                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+                {'error': str(e)}
+            )
+
+# Exportar dados
+
+# Exportar sensores
+from django.http import HttpResponse
+import pandas as pd
+from io import BytesIO
+
+class ExportarSensores(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request): 
+        try:
+            
+            # Informações que eu quero que seja exportado
+            queryset = Sensor.objects.all().values(
+                'id',
+                'sensor',
+                'mac_address',
+                'unidade_med',
+                'latitude',
+                'longitude',
+                'status'
+            )
+            
+            df = pd.DataFrame.from_records(queryset)
+            
+            # Renomeando o nome das colunas
+            df = df.rename(columns={
+                'unidade_med': 'unidade_medida',
+                'id': 'sensor_id'
+            })
+            
+            # Ordem que eu quero que apareça as informações
+            df = df[['sensor_id', 'sensor', 'mac_address', 'unidade_medida', 
+                    'latitude', 'longitude', 'status']]
+            
+            # Criação do Arquivo Excel
+            output = BytesIO()
+            with pd.ExcelWriter(output, engine='openpyxl') as writer:
+                df.to_excel(writer, sheet_name='Sensores', index=False)
+            
+            # Configura a resposta HTTP
+            output.seek(0)
+            response = HttpResponse(
+                output.getvalue(),
+                content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+            )
+            response['Content-Disposition'] = 'attachment; filename=sensores_exportados.xlsx'
+            
+            return response
+            
+        except Exception as e:
+            return Response(
+                {'error': str(e)}
             )
