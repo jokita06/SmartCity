@@ -7,6 +7,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.response import Response
 import pandas as pd
+from django.http import HttpResponse
+from io import BytesIO
 
 # Efetuar login
 class Login(TokenObtainPairView):
@@ -237,10 +239,6 @@ class ImportarHistoricos(APIView):
 # Exportar dados
 
 # Exportar sensores
-from django.http import HttpResponse
-import pandas as pd
-from io import BytesIO
-
 class ExportarSensores(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -287,5 +285,40 @@ class ExportarSensores(APIView):
             
         except Exception as e:
             return Response(
+                {'error': str(e)}
+            )
+
+# Exportar ambientes
+class ExportarAmbientes(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        try:
+            queryset = Ambiente.objects.all().values(
+                'sig',
+                'descricao',
+                'ni',
+                'responsavel'
+            )
+
+            df = pd.DataFrame.from_records(queryset)
+
+            df = df[['sig', 'ni', 'descricao', 'responsavel']]
+
+            output = BytesIO()
+            with pd.ExcelWriter(output, engine='openpyxl') as writer:
+                df.to_excel(writer, sheet_name='Ambientes', index=False)
+
+            output.seek(0)
+            response = HttpResponse (
+                output.getvalue(),
+                content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+            )
+            response['Content-Disposition'] = 'attachement; filename=ambientes_exportados.xlsx'
+
+            return response
+        
+        except Exception as e:
+            return Response (
                 {'error': str(e)}
             )

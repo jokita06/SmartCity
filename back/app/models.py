@@ -10,6 +10,7 @@ class Usuario(AbstractUser):
         validators=[
             MinLengthValidator(13),  
             RegexValidator(
+                # Validação do formato do telefone
                 regex=r'^\(\d{2}\)\d{5}-\d{4}$',
                 message='Formato inválido. Use: (00)00000-0000'
             )
