@@ -325,11 +325,43 @@ class ExportarAmbientes(APIView):
                 {'error': str(e)}
             )
 
-# class exportarHistoricos(APIView):
-#     permission_classes = [IsAuthenticated]
+# Exportar histórico
+class ExportarHistoricos(APIView):
+    permission_classes = [IsAuthenticated]
 
-#     def get(self, request):
-#         try:
-#             queryset = Ambiente.objects.all().values(
-#                 ''
-#             )
+    def get(self, request):
+        try:
+
+            queryset = Historico.objects.all().values(
+                'sensor__id',
+                'ambiente__id',
+                'valor',
+                'timestamp'
+            )
+
+            df = pd.DataFrame.from_records(queryset)
+            
+            if not df.empty and 'timestamp' in df.columns:
+                df['timestamp'] = pd.to_datetime(df['timestamp']).dt.tz_localize(None)
+            
+            df = df.rename(columns={
+                'sensor__id': 'sensor',
+                'ambiente__id': 'ambiente'
+            })
+
+            output = BytesIO()
+            with pd.ExcelWriter(output, engine='openpyxl') as writer:
+                df.to_excel(writer, sheet_name='Historicos', index=False)
+            
+            output.seek(0)
+            response = HttpResponse(
+                output.getvalue(),
+                content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+            )
+            response['Content-Disposition'] = 'attachment; filename=historicos_exportados.xlsx'
+            
+            return response
+
+        except Exception as e:
+            return Response(
+            )

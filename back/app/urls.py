@@ -4,7 +4,7 @@ from .views import (
     Sensor_GET_POST, Sensor_GET_PUT_PATCH_DELETE, 
     Historico_GET_POST, Historico_GET_PUT_PATCH_DELETE,
     ImportarSensores, ImportarAmbientes, ImportarHistoricos,
-    ExportarSensores, ExportarAmbientes
+    ExportarSensores, ExportarAmbientes, ExportarHistoricos
 )
 from rest_framework_simplejwt.views import TokenRefreshView
 
@@ -39,5 +39,7 @@ urlpatterns = [
     # Exportar sensores
     path('exportar/sensores/', ExportarSensores.as_view()),
     # Exportar ambientes
-    path('exportar/ambientes/', ExportarAmbientes.as_view())
+    path('exportar/ambientes/', ExportarAmbientes.as_view()),
+    # Exportar histórico
+    path('exportar/historicos', ExportarHistoricos.as_view())
 ]
