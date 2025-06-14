@@ -52,4 +52,6 @@ class Historico(models.Model):
     timestamp = models.DateTimeField(default=now)
 
     def __str__(self):
-        return f"{self.sensor.sensor} - {self.timestamp}"
+        # Formata como dd/mm/yyyy hh:mm
+        data_hora_formatada = self.timestamp.strftime("%d/%m/%Y %H:%M")
+        return f"{self.sensor.sensor} - {data_hora_formatada}"

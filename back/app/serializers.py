@@ -34,7 +34,8 @@ class AmbienteSerializer(serializers.ModelSerializer):
 class HistoricoSerializer(serializers.ModelSerializer):
     ambiente = serializers.StringRelatedField()
     sensor = serializers.StringRelatedField()
-
+    timestamp = serializers.DateTimeField(format='%d/%m/%Y %H:%M') 
+    
     class Meta:
         model = Historico
         fields = '__all__'

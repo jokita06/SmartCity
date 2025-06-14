@@ -249,7 +249,6 @@ class ExportarSensores(APIView):
             
             # Informações que eu quero que seja exportado
             queryset = Sensor.objects.all().values(
-                'id',
                 'sensor',
                 'mac_address',
                 'unidade_med',
@@ -331,7 +330,6 @@ class ExportarHistoricos(APIView):
 
     def get(self, request):
         try:
-
             queryset = Historico.objects.all().values(
                 'sensor__id',
                 'ambiente__id',
@@ -342,7 +340,9 @@ class ExportarHistoricos(APIView):
             df = pd.DataFrame.from_records(queryset)
             
             if not df.empty and 'timestamp' in df.columns:
-                df['timestamp'] = pd.to_datetime(df['timestamp']).dt.tz_localize(None)
+
+                # Formata para dd/mm/yyyy hh:mm
+                df['timestamp'] = df['timestamp'].dt.strftime('%d/%m/%Y %H:%M')
             
             df = df.rename(columns={
                 'sensor__id': 'sensor',
@@ -364,4 +364,6 @@ class ExportarHistoricos(APIView):
 
         except Exception as e:
             return Response(
+                {'error': str(e)},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
