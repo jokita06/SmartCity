@@ -9,6 +9,7 @@ from rest_framework.response import Response
 import pandas as pd
 from django.http import HttpResponse
 from io import BytesIO
+from datetime import datetime
 
 # Efetuar login
 class Login(TokenObtainPairView):
@@ -63,6 +64,34 @@ class Historico_GET_POST(ListCreateAPIView):
     queryset = Historico.objects.all()
     serializer_class = HistoricoSerializer
     permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        queryset = super().get_queryset()  
+        
+        # Filtros 
+        sensor = self.request.query_params.get('sensor')
+        sig = self.request.query_params.get('sig')
+        data = self.request.query_params.get('data')
+
+        if sensor:
+            # /historico/?sensor=temperatura
+            queryset = queryset.filter(sensor__sensor__iexact=sensor)
+        
+        if sig:
+            # /historico/?sig=20400001
+            queryset = queryset.filter(ambiente__sig=sig)
+        
+        if data:
+            try:
+                # Converte a data "2023-05-15"
+                data_obj = datetime.strptime(data, "%Y-%m-%d").date()
+                
+                # /historico/?data=2023-05-15
+                queryset = queryset.filter(timestamp__date=data_obj)
+            except ValueError:
+                pass  # Ignora se a data for inválida 
+        
+        return queryset
 
     def perform_create(self, serializer):
         return serializer.save()
