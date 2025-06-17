@@ -4,9 +4,9 @@
 
 ### 1. Clonar o repositório
 
-´´´bash
+```bash
 git clone https://github.com/jokita06/SmartCity.git
-´´´
+```
 
 ### 2. Abra a pasta back
 
