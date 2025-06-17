@@ -1,0 +1,108 @@
+.home-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 2rem 5%;
+    background: linear-gradient(to right, #24336B, #6683F2);
+    min-height: 88vh;
+    position: relative; 
+    overflow: hidden; 
+}
+
+.header-conteudo {
+    max-width: 45%;
+    color: white;
+    z-index: 1; 
+}
+
+.imagem-cidade{
+    height: 100%; 
+    position: absolute; 
+    right: 0; 
+    top: 0; 
+    max-height: 100%; 
+    object-fit: contain; 
+}
+
+.header-conteudo h1 {
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+}
+
+.header-conteudo h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    font-weight: normal;
+}
+
+.header-conteudo p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+}
+
+.botao-login {
+    background-color: white;
+    color: #5374F0;
+    border: 2px solid;
+    padding: 0.8rem 2rem;
+    font-size: 1.1rem;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 1s ease;
+}
+
+.botao-login:hover {
+    background-color: transparent;
+    border: 2px solid white;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    color: white;
+}
+
+/* sessão dos serviços */
+
+.services-section {
+    background-color: #f5f5f5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    padding: 5rem;
+}
+  
+.section-titles {
+    font-size: 2rem;
+    color: #333;
+}
+  
+.services-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    max-width: 1200px;
+}
+  
+.service-card {
+    background-color: #5374F0;
+    width: 280px;
+    height: 250px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+  
+  
+.service-card h3 {
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+}
+
+.icons {
+    width: 40%;
+    border-radius: 50%;
+    border: 2px solid black;
+}

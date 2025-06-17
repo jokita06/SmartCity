@@ -1,0 +1,20 @@
+.container {
+    height: 10vh;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    z-index: 10;
+    position: fixed; 
+    background-color: transparent;
+}
+
+.conteudo-nav {
+    display: flex;
+    width: 90%;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.logo {
+    width: 150px;
+}
