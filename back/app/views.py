@@ -115,9 +115,7 @@ class ImportarSensores(APIView):
     def post(self, request):
         try:
             if not request.FILES:
-                return Response(
-                    {"error": "Nenhum arquivo enviado"}, 
-                )
+                return Response({"error": "Nenhum arquivo enviado"}, status=400)
             
             results = {}
             
@@ -127,17 +125,23 @@ class ImportarSensores(APIView):
                     count = 0
                     
                     for _, row in df.iterrows():
-
-                        sensor_value = row['sensor'].strip().lower()
-
+                        # Converte o status para booleano de forma robusta
+                        status_value = row['status']
+                        
+                        if isinstance(status_value, bool):
+                            status_bool = status_value
+                        else:
+                            # Converte strings como 'ativo', 'inativo', 'true', 'false' 
+                            status_str = str(status_value).strip().lower()
+                            status_bool = status_str in ('ativo', 'true', 't', '1', 'sim', 'yes', 'y')
+                        
                         Sensor.objects.create(
-                            sensor=sensor_value,
+                            sensor=row['sensor'].strip().lower(),
                             mac_address=row['mac_address'],
                             unidade_med=row['unidade_medida'],
                             latitude=row['latitude'],
                             longitude=row['longitude'],
-                            status=row['status'] if isinstance(row['status'], bool)
-                                    else row['status'].lower() == 'ativo'
+                            status=status_bool  # Valor já convertido
                         )
                         count += 1
                     
@@ -155,9 +159,7 @@ class ImportarSensores(APIView):
             })
             
         except Exception as e:
-            return Response(
-                {"error": str(e)}, 
-            )
+            return Response({"error": str(e)}, status=500)
 
 # Importar ambiente
 class ImportarAmbientes(APIView):
@@ -291,11 +293,10 @@ class ExportarSensores(APIView):
             # Renomeando o nome das colunas
             df = df.rename(columns={
                 'unidade_med': 'unidade_medida',
-                'id': 'sensor_id'
             })
             
             # Ordem que eu quero que apareça as informações
-            df = df[['sensor_id', 'sensor', 'mac_address', 'unidade_medida', 
+            df = df[['sensor', 'mac_address', 'unidade_medida', 
                     'latitude', 'longitude', 'status']]
             
             # Criação do Arquivo Excel

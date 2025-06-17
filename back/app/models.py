@@ -40,7 +40,7 @@ class Sensor(models.Model):
     unidade_med = models.CharField()
     latitude = models.FloatField()
     longitude = models.FloatField()
-    status = models.CharField(max_length=20) 
+    status = models.BooleanField(default=True) 
 
     def __str__(self):
         return self.sensor

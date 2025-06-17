@@ -49,9 +49,6 @@ class AmbienteSerializer(serializers.ModelSerializer):
 
 # Serializador dos registros históricos dos sensores.
 class HistoricoSerializer(serializers.ModelSerializer):
-
-    ambiente = serializers.StringRelatedField()
-    sensor = serializers.StringRelatedField()
     timestamp = serializers.DateTimeField(format='%d/%m/%Y %H:%M')
 
     class Meta:

@@ -41,5 +41,5 @@ urlpatterns = [
     # Exportar ambientes
     path('exportar/ambientes/', ExportarAmbientes.as_view()),
     # Exportar histórico
-    path('exportar/historicos', ExportarHistoricos.as_view())
+    path('exportar/historicos/', ExportarHistoricos.as_view())
 ]
