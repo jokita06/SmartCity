@@ -5,13 +5,16 @@ import { MdOutlinePlace } from "react-icons/md";
 import { FaClipboardList } from "react-icons/fa";
 
 export function Home() {
+
+  
   return (
     <>
       <header className="home-header">
         <div className="header-conteudo">
           <h1>SmartHub</h1>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-          <button className="botao-login">Comece aqui</button>
+          <p>Transforme sua cidade em um ambiente inteligente com nosso sistema de monitoramento integrado.</p>
+
+            <button className="botao-login">Comece aqui</button>
         </div>
 
         <img 
@@ -22,26 +25,35 @@ export function Home() {
       </header>
 
       <main className='home-main'>
-        <section className='services-section'>
-            <h2 className='section-titles'>Nossos Serviços</h2>
-            <p>
-                Gerencie de forma inteligente os sensores urbanos, monitore os ambientes em tempo real e acompanhe o histórico completo de dados da cidade.
+        <section className='section-servico'>
+            <h2 className='section-titulo'>Nossos <span>Serviços</span></h2>
+            <p className="section-subtitulo">
+                Gerencie de forma inteligente os sensores urbanos, monitore ambientes em tempo real e acompanhe o histórico completo.
             </p>
             
-            <div className='services-container'>
-                <article className='service-card'>
-                    <MdOutlineSensors />
+            <div className='container-servicos'>
+                <article className='card-servico'>
+                    <div className="card-icon">
+                      <MdOutlineSensors size={60} />
+                    </div>
                     <h3>Sensores</h3>
+                    <p>Coleta de dados em tempo real da temperatura, luminosidade, de pessoas e da umidade</p>
                 </article>
 
-                <article className='service-card'>
-                    <MdOutlinePlace />
-                    <h3>Ambientes</h3>
+                <article className='card-servico'>
+                    <div className="card-icon">
+                      <MdOutlinePlace size={60} />
+                    </div>
+                    <h3>Monitoramento</h3>
+                    <p>Controle completo dos ambientes urbanos de qualquer lugar</p>
                 </article>
 
-                <article className='service-card'>
-                    <FaClipboardList />
-                    <h3>Histórico</h3>
+                <article className='card-servico'>
+                    <div className="card-icon">
+                      <FaClipboardList size={60} />
+                    </div>
+                    <h3>Histórico Completo</h3>
+                    <p>Relatórios detalhados e análise temporal dos dados coletados</p>
                 </article>
             </div>
         </section>

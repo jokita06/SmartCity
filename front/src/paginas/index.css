@@ -1,5 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
+:root {
+    --cor-principal: #5374F0;
+    --cor-secundaria: #3B58C8;
+    --secondary: #FF6B6B;
+    --text: #212121;
+    --text-light: #3e3e3e;
+    --background: #e2e2e2;
+    --white: #FFFFFF;
+}
+
 * {
     margin: 0;
     padding: 0;

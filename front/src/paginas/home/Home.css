@@ -3,106 +3,152 @@
     align-items: center;
     justify-content: space-between;
     padding: 2rem 5%;
-    background: linear-gradient(to right, #24336B, #6683F2);
-    min-height: 88vh;
-    position: relative; 
-    overflow: hidden; 
+    background: linear-gradient(135deg, var(--cor-secundaria), var(--secondary));
+    min-height: 90vh;
+    position: relative;
+    overflow: hidden;
 }
 
 .header-conteudo {
-    max-width: 45%;
-    color: white;
-    z-index: 1; 
-}
-
-.imagem-cidade{
-    height: 100%; 
-    position: absolute; 
-    right: 0; 
-    top: 0; 
-    max-height: 100%; 
-    object-fit: contain; 
+    width: 40%;
+    color: var(--white);
 }
 
 .header-conteudo h1 {
-    font-size: 3.5rem;
-    margin-bottom: 1rem;
-}
-
-.header-conteudo h2 {
-    font-size: 2.5rem;
+    font-size: 4rem;
     margin-bottom: 1.5rem;
-    font-weight: normal;
+    font-weight: 700;
+    color: var(--white);
 }
 
 .header-conteudo p {
-    font-size: 1.2rem;
-    line-height: 1.6;
-    margin-bottom: 2rem;
+    font-size: 1.3rem;
+    line-height: 1.8;
+    margin-bottom: 3rem;
 }
 
 .botao-login {
-    background-color: white;
-    color: #5374F0;
-    border: 2px solid;
-    padding: 0.8rem 2rem;
+    background-color: var(--white);
+    color: var(--cor-secundaria);
+    border: 2px solid var(--white);
+    padding: 1rem 2.5rem;
     font-size: 1.1rem;
     cursor: pointer;
-    font-weight: bold;
-    transition: all 1s ease;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 .botao-login:hover {
     background-color: transparent;
-    border: 2px solid white;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    color: white;
+    border: 2px solid var(--white);
+    color: var(--white);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
 }
 
-/* sessão dos serviços */
+.imagem-cidade {
+    height: 90%;
+    position: absolute;
+    right: 5%;
+    bottom: 0;
+}
 
-.services-section {
-    background-color: #f5f5f5;
+/* seção de serviços */
+
+.section-servico {
+    background-color: var(--background);
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 2rem;
-    padding: 5rem;
+    padding: 8rem 5%;
+    text-align: center;
 }
   
-.section-titles {
-    font-size: 2rem;
-    color: #333;
+.section-titulo {
+    font-size: 3rem;
+    color: var(--text);
+    margin-bottom: 1rem;
+}
+
+.section-titulo span {
+  color: var(--cor-principal);
+}
+
+.section-subtitulo {
+    font-size: 1.2rem;
+    color: var(--text-light);
+    max-width: 700px;
+    line-height: 1.8;
+    margin-bottom: 3rem;
 }
   
-.services-container {
+.container-servicos {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 1rem;
+    gap: 2rem;
     max-width: 1200px;
 }
   
-.service-card {
-    background-color: #5374F0;
-    width: 280px;
-    height: 250px;
-    padding: 1.5rem;
+.card-servico {
+    background-color: var(--white);
+    width: 320px;
+    min-height: 350px;
+    padding: 3rem 2rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    color: white;
-}
-  
-  
-.service-card h3 {
-    font-size: 1.4rem;
-    margin-bottom: 1rem;
+    color: var(--text);
+    transition: all 0.4s ease;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+    position: relative;
 }
 
-.icons {
-    width: 40%;
-    border-radius: 50%;
-    border: 2px solid black;
+.card-servico::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background: linear-gradient(to right, var(--cor-principal), var(--secondary));
+}
+
+.card-servico:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+}
+
+.card-icon {
+  width: 100px;
+  height: 100px;
+  background: linear-gradient(135deg, rgba(83, 116, 240, 0.1) 0%, rgba(255, 107, 107, 0.1) 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2rem;
+  color: var(--cor-principal);
+  transition: all 0.3s ease;
+}
+
+.card-servico:hover .card-icon {
+  transform: rotate(15deg) scale(1.1);
+  background: linear-gradient(135deg, rgba(83, 116, 240, 0.2) 0%, rgba(255, 107, 107, 0.2) 100%);
+}
+
+.card-servico h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--text);
+}
+
+.card-servico p {
+  font-size: 1rem;
+  color: var(--text-light);
+  text-align: center;
+  line-height: 1.7;
 }
