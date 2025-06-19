@@ -3,6 +3,7 @@ import cidade from '../../assets/cidade.svg';
 import { MdOutlineSensors } from "react-icons/md";
 import { MdOutlinePlace } from "react-icons/md";
 import { FaClipboardList } from "react-icons/fa";
+import { Link } from 'react-router-dom';
 
 export function Home() {
 
@@ -14,7 +15,9 @@ export function Home() {
           <h1>SmartHub</h1>
           <p>Transforme sua cidade em um ambiente inteligente com nosso sistema de monitoramento integrado.</p>
 
-            <button className="botao-login">Comece aqui</button>
+            <button className="botao-login">
+              <Link to='/login' className='nav-link'>Comece aqui</Link>
+            </button>
         </div>
 
         <img 

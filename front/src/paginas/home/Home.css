@@ -3,7 +3,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 2rem 5%;
-    background: linear-gradient(135deg, var(--cor-secundaria), var(--secondary));
+    background: linear-gradient(135deg, var(--cor-principal), var(--cor-secundaria));
     min-height: 90vh;
     position: relative;
     overflow: hidden;
@@ -11,14 +11,14 @@
 
 .header-conteudo {
     width: 40%;
-    color: var(--white);
+    color: var(--branco);
 }
 
 .header-conteudo h1 {
     font-size: 4rem;
     margin-bottom: 1.5rem;
     font-weight: 700;
-    color: var(--white);
+    color: var(--branco);
 }
 
 .header-conteudo p {
@@ -28,9 +28,9 @@
 }
 
 .botao-login {
-    background-color: var(--white);
-    color: var(--cor-secundaria);
-    border: 2px solid var(--white);
+    background-color: var(--branco);
+    color: var(--cor-principal);
+    border: 2px solid var(--branco);
     padding: 1rem 2.5rem;
     font-size: 1.1rem;
     cursor: pointer;
@@ -39,11 +39,19 @@
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
+.botao-login a {
+    text-decoration: none;
+}
+
 .botao-login:hover {
     background-color: transparent;
-    border: 2px solid var(--white);
+    border: 2px solid var(--branco);
     color: var(--white);
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.botao-login:hover a {
+    color: var(--white);
 }
 
 .imagem-cidade {
@@ -56,7 +64,7 @@
 /* seção de serviços */
 
 .section-servico {
-    background-color: var(--background);
+    background-color: var(--fundo);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -67,17 +75,20 @@
   
 .section-titulo {
     font-size: 3rem;
-    color: var(--text);
+    color: var(--texto-primario);
     margin-bottom: 1rem;
+
 }
 
 .section-titulo span {
-  color: var(--cor-principal);
+  background: linear-gradient(135deg, var(--cor-principal), var(--cor-secundaria));
+  background-clip: text;
+  color: transparent;
 }
 
 .section-subtitulo {
     font-size: 1.2rem;
-    color: var(--text-light);
+    color: var(--texto-secundario);
     max-width: 700px;
     line-height: 1.8;
     margin-bottom: 3rem;
@@ -92,7 +103,7 @@
 }
   
 .card-servico {
-    background-color: var(--white);
+    background-color: var(--branco);
     width: 320px;
     min-height: 350px;
     padding: 3rem 2rem;
@@ -114,7 +125,7 @@
   left: 0;
   width: 100%;
   height: 5px;
-  background: linear-gradient(to right, var(--cor-principal), var(--secondary));
+  background: linear-gradient(to right, var(--cor-principal), var(--cor-secundaria));
 }
 
 .card-servico:hover {
@@ -143,12 +154,12 @@
 .card-servico h3 {
     font-size: 1.5rem;
     margin-bottom: 1.5rem;
-    color: var(--text);
+    color: var(--texto-primario);
 }
 
 .card-servico p {
   font-size: 1rem;
-  color: var(--text-light);
+  color: var(--texto-secundario);
   text-align: center;
   line-height: 1.7;
 }

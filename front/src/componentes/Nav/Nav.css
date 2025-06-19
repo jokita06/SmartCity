@@ -4,8 +4,14 @@
     width: 100%;
     justify-content: center;
     z-index: 10;
-    position: fixed; 
+    position: fixed;
     background-color: transparent;
+    transition: all 0.3s ease;
+}
+
+.container.scrolled {
+    background: linear-gradient(135deg, var(--cor-principal), var(--cor-secundaria));
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .conteudo-nav {
@@ -13,8 +19,16 @@
     width: 90%;
     align-items: center;
     justify-content: flex-start;
+    height: 100%; 
 }
 
 .logo {
     width: 150px;
+    transition: transform 0.3s ease;
+
+}
+
+.logo:hover {
+    transform: scale(1.05);
+    cursor: pointer;
 }

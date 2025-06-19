@@ -2,13 +2,14 @@
 
 :root {
     --cor-principal: #5374F0;
-    --cor-secundaria: #3B58C8;
-    --secondary: #FF6B6B;
-    --text: #212121;
-    --text-light: #3e3e3e;
-    --background: #e2e2e2;
-    --white: #FFFFFF;
+    --cor-principal-escura: #3B58C8;  
+    --cor-secundaria: #FF6B6B;         
+    --texto-primario: #212121;
+    --texto-secundario: #3e3e3e;       
+    --fundo: #e2e2e2;
+    --branco: #FFFFFF;
 }
+
 
 * {
     margin: 0;

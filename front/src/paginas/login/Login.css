@@ -1,0 +1,127 @@
+.pagina-login {
+  background: var(--branco);
+  display: flex;
+  height: 100vh;
+  width: 100%;
+}
+
+.formulario-login {
+  background-color: var(--branco);
+  display: flex;
+  flex-direction: column;
+  width: 40%;
+  min-width: 400px;
+  gap: 1.5rem;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.login-titulo {
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+  background: linear-gradient(135deg, var(--cor-principal), var(--cor-secundaria));
+  background-clip: text;
+  color: transparent;
+  display: inline-block;
+  text-align: center;
+  font-weight: 600;
+}
+
+.input-container {
+  width: 100%;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.login-input {
+  padding: 1rem 1.5rem;
+  width: 100%;
+  outline: none;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  transition: all 0.3s ease;
+}
+
+.login-input:focus {
+  border-color: var(--cor-principal);
+  box-shadow: 0 0 0 2px rgba(var(--cor-principal-rgb), 0.2);
+}
+
+.login-input.error {
+  border-color: #e74c3c;
+  background-color: #fff9f9;
+}
+
+.login-imagem-container {
+  background-color: var(--fundo);
+  width: 60%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+
+.login-imagem-container img {
+  height: 80%;
+  max-height: 90vh;
+  object-fit: contain;
+  position: absolute;
+  bottom: 0;
+}
+
+.botao-logar {
+  padding: 1rem 5rem;
+  border: none;
+  font-size: 1.2rem;
+  background: linear-gradient(135deg, var(--cor-principal), var(--cor-secundaria));
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 1rem;
+  font-weight: 500;
+  width: 100%;
+  max-width: 500px;
+}
+
+.botao-logar:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
+
+.mensagem-erro {
+  display: block;
+  width: 100%;
+  color: #e74c3c;
+  font-size: 0.8rem;
+  margin-top: 0.5rem;
+  padding-left: 0.5rem;
+  text-align: left;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.enviar-error {
+  text-align: center;
+  margin-top: -0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.formulario-login p {
+  color: #666;
+  margin-top: 1rem;
+}
+
+.formulario-login p span {
+  color: var(--cor-principal);
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.formulario-login p span:hover {
+  text-decoration: underline;
+}
