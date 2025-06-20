@@ -1,0 +1,64 @@
+.form-dashboard {
+    padding: 10px;
+    width: 500px;
+    margin: 0 auto;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    outline: none;
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+}
+
+.checkbox input {
+  width: auto;
+  margin-right: 10px;
+}
+
+.formulario-botoes {
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.btn-cancelar {
+    padding: 8px 16px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    cursor: pointer;
+}
+
+.btn-enviar {
+    padding: 8px 16px;
+    background: linear-gradient(135deg, var(--cor-principal), var(--cor-secundaria));
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.erro {
+    color: #ff4444;
+    font-size: 0.8rem;
+    margin-top: 5px;
+    display: block;
+}

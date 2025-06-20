@@ -3,6 +3,8 @@ import "./Sensores.css";
 import { FaTrash } from "react-icons/fa";
 import { MdModeEdit } from "react-icons/md";
 import { FaAngleLeft, FaAngleRight, FaAngleDoubleLeft, FaAngleDoubleRight } from "react-icons/fa";
+import { Modal } from "../../componentes/modal/Modal";
+import { SensoresForm } from "../../componentes/formulario/SensoresForm";
 import api from "../../api/Api";
 
 const fields = {
@@ -14,20 +16,26 @@ const fields = {
 };
 
 const sensorTypes = [
-  "Temperatura",
-  "Umidade",
-  "Luminosidade",
-  "Contador"
+  { label: "Temperatura", value: "temperatura" },
+  { label: "Umidade", value: "umidade" },
+  { label: "Luminosidade", value: "luminosidade" },
+  { label: "Contador", value: "contador" }
 ];
+
 
 export function Sensores() {
   const [sensores, setSensores] = useState([]);
   const [selectedType, setSelectedType] = useState("");
   const [filteredSensores, setFilteredSensores] = useState([]);
-
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(30);
   const [totalItems, setTotalItems] = useState(0);
+  
+  // Estados para os modais
+  const [showModal, setShowModal] = useState(false);
+  const [modalContent, setModalContent] = useState(null);
+  const [selectedSensor, setSelectedSensor] = useState(null);
+  const [actionType, setActionType] = useState('');
 
   useEffect(() => {
     const fetchSensores = async () => {
@@ -78,11 +86,95 @@ export function Sensores() {
     }
   };
 
+  // Funções para os modais
+  const handleAddSensor = () => {
+    setActionType('create');
+    setSelectedSensor(null);
+    setModalContent(
+      <SensoresForm 
+        item={null} 
+        action="create" 
+        onClose={() => {
+          setShowModal(false);
+          refreshData();
+        }} 
+      />
+    );
+    setShowModal(true);
+  };
+
+  const handleEditSensor = (sensor) => {
+    setActionType('edit');
+    setSelectedSensor(sensor);
+    setModalContent(
+      <SensoresForm 
+        item={sensor} 
+        action="edit" 
+        onClose={() => {
+          setShowModal(false);
+          refreshData();
+        }} 
+      />
+    );
+    setShowModal(true);
+  };
+
+  const handleDeleteSensor = (sensor) => {
+    setActionType('delete');
+    setSelectedSensor(sensor);
+    setModalContent(
+      <div className="delete-confirmacao">
+        <h3>Confirmar exclusão</h3>
+        <p>Tem certeza que deseja excluir o sensor {sensor.sensor} ({sensor.mac_address})?</p>
+        <div className="botoes-modal">
+          <button 
+            className="btn-cancelar" 
+            onClick={() => setShowModal(false)}
+          >
+            Cancelar
+          </button>
+          <button 
+            className="btn-confirmar" 
+            onClick={async () => {
+              try {
+                await api.delete(`sensores/${sensor.id}/`);
+                setShowModal(false);
+                refreshData();
+              } catch (error) {
+                console.error("Erro ao deletar:", error);
+              }
+            }}
+          >
+            Confirmar
+          </button>
+        </div>
+      </div>
+    );
+    setShowModal(true);
+  };
+
+  const refreshData = async () => {
+    try {
+      const response = await api.get(fields.sensores.endpoint);
+      setSensores(response.data);
+      setFilteredSensores(response.data);
+      setTotalItems(response.data.length);
+    } catch (error) {
+      console.error("Error refreshing sensor data:", error);
+    }
+  };
+
   return (
     <main className="sensores-container">
+      {showModal && (
+        <Modal onClose={() => setShowModal(false)}>
+          {modalContent}
+        </Modal>
+      )}
+
       <header className="sensores-header">
         <h1>Dados dos Sensores</h1>
-        <button className="add-btn">+ Add registro</button>
+        <button className="add-btn" onClick={handleAddSensor}>+ Add registro</button>
       </header>
 
       <div className="sensores-filtro">
@@ -92,9 +184,10 @@ export function Sensores() {
         >
           <option value="">Todos</option>
           {sensorTypes.map(type => (
-            <option key={type} value={type}>{type}</option>
+            <option key={type.value} value={type.value}>{type.label}</option>
           ))}
         </select>
+
         
         <button>Visualizar ambientes</button>
         <button>Visualizar histórico</button>
@@ -125,10 +218,20 @@ export function Sensores() {
                   </td>
                 ))}
                 <td>
-                  <button className="acoes-btn" aria-label="Editar" title="Editar">
+                  <button 
+                    className="acoes-btn" 
+                    aria-label="Editar" 
+                    title="Editar"
+                    onClick={() => handleEditSensor(item)}
+                  >
                     <MdModeEdit />
                   </button>
-                  <button className="acoes-btn" aria-label="Excluir" title="Excluir">
+                  <button 
+                    className="acoes-btn" 
+                    aria-label="Excluir" 
+                    title="Excluir"
+                    onClick={() => handleDeleteSensor(item)}
+                  >
                     <FaTrash />
                   </button>
                 </td>

@@ -14,8 +14,8 @@ export function PrivateRoute() {
 export function RotasPublicas() {
     return (
         <Routes>
-            {/* Rotas públicas */}
             <Route path='/' element={<Index />}>
+                {/* Rotas públicas */}
                 <Route index element={<Home />} />
                 <Route path='home' element={<Home />} />
                 <Route path='login' element={<Login />} />
