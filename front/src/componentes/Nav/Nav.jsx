@@ -21,7 +21,7 @@ export function Nav() {
     }, [scrolled]);
 
     const getLogo = () => {
-        if (location.pathname === '/home') {
+        if (location.pathname === '/home' || location.pathname === '/') {
             return logoBranca; 
         } else {
             return scrolled ? logoBranca : logoRoxa; 

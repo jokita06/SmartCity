@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { Index } from '../paginas';
 import { Home } from '../paginas/home/Home';
 import { Login } from '../paginas/login/Login';
-import { Sensores } from '../paginas/sensors/sensors';
+import { Sensores } from '../paginas/sensores/Sensores';
 
 export function PrivateRoute() {
     const isAuthenticated = !!localStorage.getItem('access_token');

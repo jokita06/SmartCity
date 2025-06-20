@@ -1,0 +1,129 @@
+.sensores-container {
+    background: var(--branco);
+    padding: 120px;
+}
+
+.sensores-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 70px;
+}
+
+.sensores-header h1 {
+    font-size: 2.2rem;
+    font-weight: bold;
+}
+
+.add-btn {
+    background: linear-gradient(135deg, var(--cor-principal), var(--cor-secundaria));
+    color: var(--branco);
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+}
+
+.add-btn:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+}
+
+.sensores-filtro {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.sensores-filtro select,
+.sensores-filtro button {
+    padding: 8px 12px;
+    border: 2px solid var(--cor-principal);
+    border-radius: 4px;
+    background: #f9f9f9;
+    cursor: pointer;
+    color: var(--cor-principal);
+    font-size: 1rem;
+    font-weight: 500;
+    outline: none;
+}
+
+.sensores-tabela {
+    width: 100%;
+    border-spacing: 0 8px; 
+    border: none;
+    font-size: 1.2rem;
+}
+
+.sensores-tabela th,
+.sensores-tabela td {
+    padding: 20px;
+    text-align: left;
+}
+
+.sensores-tabela th {
+    background: var(--cor-principal);
+    color: var(--branco);
+}
+
+.status {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 1rem;
+}
+
+.status.ativo {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.status.inativo {
+    background: #fecaca;
+    color: #991b1b;
+}
+
+.acoes-btn {
+    background: none;
+    border: none;
+    margin-right: 5px;
+    cursor: pointer;
+    font-size: 1.6rem;
+}
+
+.acoes-btn:hover {
+    opacity: 0.7;
+}
+
+.controle-paginacao {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    gap: 10px;
+}
+
+.paginacao-btn {
+    background: #f0f0f0;
+    border: 1px solid #ddd;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.paginacao-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.paginacao-btn:hover:not(:disabled) {
+    background: #e0e0e0;
+}
+
+.paginacao-info {
+    margin: 0 15px;
+    font-size: 14px;
+}
