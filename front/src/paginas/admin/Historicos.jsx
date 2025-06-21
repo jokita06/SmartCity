@@ -1,32 +1,24 @@
 import { useEffect, useState } from "react";
-import "./Sensores.css";
+import "./style/index.css";
 import { FaTrash } from "react-icons/fa";
 import { MdModeEdit } from "react-icons/md";
 import { FaAngleLeft, FaAngleRight, FaAngleDoubleLeft, FaAngleDoubleRight } from "react-icons/fa";
 import { Modal } from "../../componentes/modal/Modal";
-import { SensoresForm } from "../../componentes/formulario/SensoresForm";
+import { HistoricosForm } from "../../componentes/formulario/HistoricosForm";
 import api from "../../api/Api";
+import { useNavigate } from 'react-router-dom';
 
 const fields = {
-  sensores: {
-    endpoint: 'sensores/',
-    fields: ['sensor', 'mac_address', 'unidade_med', 'latitude', 'longitude', 'status'],
-    fieldNames: ['Sensor', 'Mac Address', 'Unidade de Medida', 'Latitude', 'Longitude', 'Status']
+  historicos: {
+    endpoint: 'historico/',
+    fields: ['ambiente', 'sensor', 'valor', 'timestamp'],
+    fieldNames: ['Ambiente', 'Sensor', 'Valor', 'Data/Hora']
   }
 };
 
-const sensorTypes = [
-  { label: "Temperatura", value: "temperatura" },
-  { label: "Umidade", value: "umidade" },
-  { label: "Luminosidade", value: "luminosidade" },
-  { label: "Contador", value: "contador" }
-];
-
-
-export function Sensores() {
-  const [sensores, setSensores] = useState([]);
-  const [selectedType, setSelectedType] = useState("");
-  const [filteredSensores, setFilteredSensores] = useState([]);
+export function Historicos() {
+  const navigate = useNavigate();
+  const [historicos, setHistoricos] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(30);
   const [totalItems, setTotalItems] = useState(0);
@@ -34,41 +26,26 @@ export function Sensores() {
   // Estados para os modais
   const [showModal, setShowModal] = useState(false);
   const [modalContent, setModalContent] = useState(null);
-  const [selectedSensor, setSelectedSensor] = useState(null);
+  const [selectedHistorico, setSelectedHistorico] = useState(null);
   const [actionType, setActionType] = useState('');
 
   useEffect(() => {
-    const fetchSensores = async () => {
+    const fetchHistoricos = async () => {
       try {
-        const response = await api.get(fields.sensores.endpoint);
-        setSensores(response.data);
-        setFilteredSensores(response.data);
+        const response = await api.get(fields.historicos.endpoint);
+        setHistoricos(response.data);
         setTotalItems(response.data.length);
       } catch (error) {
-        console.error("Error fetching sensor data:", error);
+        console.error("Error fetching historico data:", error);
       }
     };
 
-    fetchSensores();
+    fetchHistoricos();
   }, []);
-
-  useEffect(() => {
-    if (selectedType === "") {
-      setFilteredSensores(sensores);
-      setTotalItems(sensores.length);
-    } else {
-      const filtered = sensores.filter(item =>
-        item.sensor.toLowerCase() === selectedType.toLowerCase()
-      );
-      setFilteredSensores(filtered);
-      setTotalItems(filtered.length);
-    }
-    setCurrentPage(1);
-  }, [selectedType, sensores]);
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredSensores.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = historicos.slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil(totalItems / itemsPerPage);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
@@ -86,12 +63,11 @@ export function Sensores() {
     }
   };
 
-  // Funções para os modais
-  const handleAddSensor = () => {
+  const handleAddHistorico = () => {
     setActionType('create');
-    setSelectedSensor(null);
+    setSelectedHistorico(null);
     setModalContent(
-      <SensoresForm 
+      <HistoricosForm 
         item={null} 
         action="create" 
         onClose={() => {
@@ -103,12 +79,12 @@ export function Sensores() {
     setShowModal(true);
   };
 
-  const handleEditSensor = (sensor) => {
+  const handleEditHistorico = (historico) => {
     setActionType('edit');
-    setSelectedSensor(sensor);
+    setSelectedHistorico(historico);
     setModalContent(
-      <SensoresForm 
-        item={sensor} 
+      <HistoricosForm 
+        item={historico} 
         action="edit" 
         onClose={() => {
           setShowModal(false);
@@ -119,13 +95,13 @@ export function Sensores() {
     setShowModal(true);
   };
 
-  const handleDeleteSensor = (sensor) => {
+  const handleDeleteHistorico = (historico) => {
     setActionType('delete');
-    setSelectedSensor(sensor);
+    setSelectedHistorico(historico);
     setModalContent(
       <div className="delete-confirmacao">
         <h3>Confirmar exclusão</h3>
-        <p>Tem certeza que deseja excluir o sensor {sensor.sensor} ({sensor.mac_address})?</p>
+        <p>Tem certeza que deseja excluir o histórico de {historico.sensor} em {historico.ambiente}?</p>
         <div className="botoes-modal">
           <button 
             className="btn-cancelar" 
@@ -137,7 +113,7 @@ export function Sensores() {
             className="btn-confirmar" 
             onClick={async () => {
               try {
-                await api.delete(`sensores/${sensor.id}/`);
+                await api.delete(`historicos/${historico.id}/`);
                 setShowModal(false);
                 refreshData();
               } catch (error) {
@@ -155,12 +131,11 @@ export function Sensores() {
 
   const refreshData = async () => {
     try {
-      const response = await api.get(fields.sensores.endpoint);
-      setSensores(response.data);
-      setFilteredSensores(response.data);
+      const response = await api.get(fields.historicos.endpoint);
+      setHistoricos(response.data);
       setTotalItems(response.data.length);
     } catch (error) {
-      console.error("Error refreshing sensor data:", error);
+      console.error("Error refreshing historico data:", error);
     }
   };
 
@@ -173,31 +148,20 @@ export function Sensores() {
       )}
 
       <header className="sensores-header">
-        <h1>Dados dos Sensores</h1>
-        <button className="add-btn" onClick={handleAddSensor}>+ Add registro</button>
+        <h1>Dados Históricos</h1>
+        <button className="add-btn" onClick={handleAddHistorico}>+ Add registro</button>
       </header>
 
       <div className="sensores-filtro">
-        <select 
-          value={selectedType}
-          onChange={(e) => setSelectedType(e.target.value)}
-        >
-          <option value="">Todos</option>
-          {sensorTypes.map(type => (
-            <option key={type.value} value={type.value}>{type.label}</option>
-          ))}
-        </select>
-
-        
-        <button>Visualizar ambientes</button>
-        <button>Visualizar histórico</button>
+        <button onClick={() => navigate('/sensores')}>Visualizar sensores</button>
+        <button onClick={() => navigate('/ambientes')}>Visualizar ambientes</button>
       </div>
 
-      <section aria-label="Tabela de sensores">
+      <section aria-label="Tabela de históricos">
         <table className="sensores-tabela">
           <thead>
             <tr>
-              {fields.sensores.fieldNames.map(name => (
+              {fields.historicos.fieldNames.map(name => (
                 <th key={name} scope="col">{name}</th>
               ))}
               <th scope="col">Ações</th>
@@ -206,15 +170,11 @@ export function Sensores() {
           <tbody>
             {currentItems.map(item => (
               <tr key={item.id}>
-                {fields.sensores.fields.map(field => (
+                {fields.historicos.fields.map(field => (
                   <td key={`${item.id}-${field}`}>
-                    {field === 'status' ? (
-                      <span className={`status ${item[field] ? "ativo" : "inativo"}`}>
-                        {item[field] ? "Ativo" : "Inativo"}
-                      </span>
-                    ) : (
-                      item[field]
-                    )}
+                    {field === 'timestamp' ? 
+                      new Date(item[field]).toLocaleString() : 
+                      item[field]}
                   </td>
                 ))}
                 <td>
@@ -222,7 +182,7 @@ export function Sensores() {
                     className="acoes-btn" 
                     aria-label="Editar" 
                     title="Editar"
-                    onClick={() => handleEditSensor(item)}
+                    onClick={() => handleEditHistorico(item)}
                   >
                     <MdModeEdit />
                   </button>
@@ -230,7 +190,7 @@ export function Sensores() {
                     className="acoes-btn" 
                     aria-label="Excluir" 
                     title="Excluir"
-                    onClick={() => handleDeleteSensor(item)}
+                    onClick={() => handleDeleteHistorico(item)}
                   >
                     <FaTrash />
                   </button>

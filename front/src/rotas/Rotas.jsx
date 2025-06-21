@@ -3,7 +3,9 @@ import { useEffect, useState } from 'react';
 import { Index } from '../paginas';
 import { Home } from '../paginas/home/Home';
 import { Login } from '../paginas/login/Login';
-import { Sensores } from '../paginas/sensores/Sensores';
+import { Sensores } from '../paginas/admin/Sensores';
+import { Ambientes } from '../paginas/admin/Ambientes';
+import { Historicos } from '../paginas/admin/Historicos';
 
 export function PrivateRoute() {
     const isAuthenticated = !!localStorage.getItem('access_token');
@@ -23,6 +25,8 @@ export function RotasPublicas() {
                 {/* Rotas privadas */}
                 <Route element={<PrivateRoute />}>
                     <Route path='sensores' element={<Sensores />} />
+                    <Route path='ambientes' element={<Ambientes />} />
+                    <Route path='historicos' element={<Historicos />} />
                 </Route>
                 
                 {/* Redirecionamento para login caso a rota não exista */}

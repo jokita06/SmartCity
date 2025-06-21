@@ -104,7 +104,7 @@ class Historico_GET_PUT_PATCH_DELETE(RetrieveUpdateDestroyAPIView):
     lookup_field = 'pk'
 
     def perform_create(self, serializer):
-        return serializer.save()
+        return serializer.save() 
     
 # Importar dados
 

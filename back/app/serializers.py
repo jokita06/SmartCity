@@ -53,4 +53,11 @@ class HistoricoSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Historico
-        fields = '__all__'
+        fields = ['ambiente', 'sensor', 'valor', 'timestamp']
+    
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        representation['ambiente'] = f"{Ambiente.objects.get(id=representation['ambiente'])}"
+        representation['sensor'] = f"{Sensor.objects.get(id=representation['sensor'])}"
+
+        return representation

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import api from "../../api/Api";
-import "./SensoresForm.css";
+import "./style/index.css";
 
 export function SensoresForm({ item, action, onClose }) {
   const [errors, setErrors] = useState({});
