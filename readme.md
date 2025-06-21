@@ -1,6 +1,6 @@
 # Smart Hub
 
-## Como rodar o projeto
+## Como rodar o projeto django
 
 ### 1. Clonar o repositório
 
@@ -48,4 +48,24 @@ python manage.py createsuperuser
 
 ```bash
 python manage.py runserver
+```
+
+
+## Como rodar o projeto react
+
+### 1. Abra a pasta front
+
+```bash
+cd ./front/
+```
+### 2. instale as dependências
+
+```bash
+npm install
+```
+
+### 3. Inicie o servidor
+
+```bash
+npm run dev
 ```
