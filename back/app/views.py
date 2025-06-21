@@ -1,9 +1,9 @@
 from django.shortcuts import render
 from rest_framework_simplejwt.views import TokenObtainPairView
-from .serializers import LoginSerializer, AmbienteSerializer, SensorSerializer, HistoricoSerializer
+from .serializers import LoginSerializer, AmbienteSerializer, SensorSerializer, HistoricoSerializer, UsuarioSerializer
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
-from .models import Ambiente, Sensor, Historico
-from rest_framework.permissions import IsAuthenticated
+from .models import Ambiente, Sensor, Historico, Usuario
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.views import APIView
 from rest_framework.response import Response
 import pandas as pd
@@ -14,6 +14,13 @@ from datetime import datetime
 # Efetuar login
 class Login(TokenObtainPairView):
     serializer_class = LoginSerializer
+
+# Usuário
+
+class UsuarioPost(ListCreateAPIView): 
+    queryset = Usuario.objects.all()
+    serializer_class = UsuarioSerializer 
+    permission_classes = [AllowAny]
 
 # Ambientes
 

@@ -157,3 +157,15 @@
 .delete-confirmacao h3 {
     margin-bottom: 15px;
 }
+
+.exportar-icon {
+    font-size: 2.3rem;
+    font-weight: 500;
+    color: var(--cor-principal);
+}
+
+.exportar-btn {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}

@@ -2,8 +2,11 @@ import { useEffect, useState } from "react";
 import api from "../../api/Api";
 import "./style/index.css";
 
+// Formulário para criar ou editar um ambiente
 export function AmbientesForm({ item, action, onClose }) {
+  // Estado para erros de validação
   const [errors, setErrors] = useState({});
+  // Estado dos dados do formulário
   const [formData, setFormData] = useState({
     sig: '',
     descricao: '',
@@ -11,6 +14,7 @@ export function AmbientesForm({ item, action, onClose }) {
     responsavel: ''
   });
 
+  // Preenche o formulário se estiver editando
   useEffect(() => {
     if (item) {
       setFormData({
@@ -22,6 +26,7 @@ export function AmbientesForm({ item, action, onClose }) {
     }
   }, [item]);
 
+  // Atualiza o estado quando o usuário digita
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -30,6 +35,7 @@ export function AmbientesForm({ item, action, onClose }) {
     }));
   };
 
+  // Envia os dados do formulário para a API
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -38,7 +44,7 @@ export function AmbientesForm({ item, action, onClose }) {
       } else {
         await api.put(`ambientes/${item.id}/`, formData);
       }
-      if (onClose) onClose();
+      if (onClose) onClose(); // Fecha o modal/formulário
     } catch (error) {
       console.error('Erro ao salvar ambiente:', error);
       if (error.response && error.response.data) {
@@ -51,6 +57,7 @@ export function AmbientesForm({ item, action, onClose }) {
     <form className='form-dashboard' onSubmit={handleSubmit}>
       <h2>{action === 'create' ? 'Adicionar' : 'Editar'} Ambiente</h2>
       
+      {/* Campo SIG */}
       <div className="form-group">
         <label>SIG:</label>
         <input
@@ -64,6 +71,7 @@ export function AmbientesForm({ item, action, onClose }) {
         {errors.sig && <span className="erro">{errors.sig}</span>}
       </div>
 
+      {/* Campo Descrição */}
       <div className="form-group">
         <label>Descrição:</label>
         <input
@@ -77,6 +85,7 @@ export function AmbientesForm({ item, action, onClose }) {
         {errors.descricao && <span className="erro">{errors.descricao}</span>}
       </div>
 
+      {/* Campo NI */}
       <div className="form-group">
         <label>NI:</label>
         <input
@@ -90,6 +99,7 @@ export function AmbientesForm({ item, action, onClose }) {
         {errors.ni && <span className="erro">{errors.ni}</span>}
       </div>
 
+      {/* Campo Responsável */}
       <div className="form-group">
         <label>Responsável:</label>
         <input
@@ -103,6 +113,7 @@ export function AmbientesForm({ item, action, onClose }) {
         {errors.responsavel && <span className="erro">{errors.responsavel}</span>}
       </div>
 
+      {/* Botões */}
       <div className="formulario-botoes">
         <button type="submit" className="btn-enviar">
           Salvar

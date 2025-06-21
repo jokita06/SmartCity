@@ -11,7 +11,7 @@
   flex-direction: column;
   width: 40%;
   min-width: 400px;
-  gap: 1.5rem;
+  gap: 1.1rem;
   align-items: center;
   justify-content: center;
   padding: 2rem;
@@ -43,8 +43,9 @@
   width: 100%;
   outline: none;
   font-size: 1rem;
-  border: 1px solid #ddd;
+  border: 2px solid #ddd;
   transition: all 0.3s ease;
+  background: #fbfbfb;
 }
 
 .login-input:focus {
@@ -116,12 +117,13 @@
   margin-top: 1rem;
 }
 
-.formulario-login p span {
+.formulario-login p .nav-link {
   color: var(--cor-principal);
   font-weight: 500;
   cursor: pointer;
+  text-decoration: none; 
 }
 
-.formulario-login p span:hover {
+.formulario-login p .nav-link:hover {
   text-decoration: underline;
 }

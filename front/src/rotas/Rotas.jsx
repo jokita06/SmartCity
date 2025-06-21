@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { Index } from '../paginas';
 import { Home } from '../paginas/home/Home';
 import { Login } from '../paginas/login/Login';
+import { Cadastro } from '../paginas/cadastro/Cadastro';
 import { Sensores } from '../paginas/admin/Sensores';
 import { Ambientes } from '../paginas/admin/Ambientes';
 import { Historicos } from '../paginas/admin/Historicos';
@@ -21,6 +22,7 @@ export function RotasPublicas() {
                 <Route index element={<Home />} />
                 <Route path='home' element={<Home />} />
                 <Route path='login' element={<Login />} />
+                <Route path='cadastro' element={<Cadastro />} />
                 
                 {/* Rotas privadas */}
                 <Route element={<PrivateRoute />}>
